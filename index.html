@@ -3,51 +3,72 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Физиологический Дашборд</title>
+    <title>Физиологический Дашборд — Персональный фитнес и расчёт тренажёров</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
     <div class="dashboard-container">
-        
+
         <aside class="sidebar">
-            <h2>Параметры</h2>
-            
+            <!-- Иконка и кнопка Личного кабинета слева вверху -->
+            <div class="sidebar-top-bar">
+                <button type="button" id="open-profile-btn" class="profile-trigger-btn" title="Открыть личный кабинет">
+                    <div class="profile-avatar-circle" id="header-avatar-box">👤</div>
+                    <span class="profile-status-dot" id="header-status-dot"></span>
+                    <div class="profile-trigger-info">
+                        <span class="profile-trigger-name" id="header-nickname">Гость (Войти)</span>
+                        <span class="profile-trigger-sub" id="header-email-sub">Личный кабинет и профиль</span>
+                    </div>
+                    <span class="profile-trigger-arrow">⚙️</span>
+                </button>
+            </div>
+
+            <div class="sidebar-header-block">
+                <h2>Параметры</h2>
+                <p class="disclaimer">Не заменяет консультацию врача</p>
+            </div>
+
             <form id="metrics-form" class="control-group">
                 <h3>1. Физические метрики</h3>
-                
-                <div class="input-field">
-                    <label for="gender">Пол:</label>
-                    <select id="gender" required>
-                        <option value="male">Мужской</option>
-                        <option value="female">Женский</option>
-                    </select>
+
+                <div class="input-row-2">
+                    <div class="input-field">
+                        <label for="gender">Пол:</label>
+                        <select id="gender" required>
+                            <option value="male">Мужской</option>
+                            <option value="female">Женский</option>
+                        </select>
+                    </div>
+
+                    <div class="input-field">
+                        <label for="age">Возраст (лет):</label>
+                        <input type="number" id="age" min="14" max="100" required value="25" placeholder="25">
+                    </div>
                 </div>
 
-                <div class="input-field">
-                    <label for="age">Возраст (лет):</label>
-                    <input type="number" id="age" min="14" max="100" required placeholder="Например: 25">
+                <div class="input-row-2">
+                    <div class="input-field">
+                        <label for="weight">Текущий вес (кг):</label>
+                        <input type="number" id="weight" min="30" max="220" step="0.5" required value="75" placeholder="75">
+                    </div>
+
+                    <div class="input-field">
+                        <label for="target-weight">Желаемый вес (кг):</label>
+                        <input type="number" id="target-weight" min="30" max="220" step="0.5" required value="75" placeholder="75">
+                    </div>
                 </div>
 
-                <div class="input-field">
-                    <label for="weight">Текущий вес (кг):</label>
-                    <input type="number" id="weight" min="30" max="200" required placeholder="Например: 75">
-                </div>
+                <div class="input-row-2">
+                    <div class="input-field">
+                        <label for="target-days">Срок цели (дней):</label>
+                        <input type="number" id="target-days" min="14" max="365" required value="90" placeholder="90">
+                    </div>
 
-                <div class="input-field">
-                    <label for="target-weight">Желаемый вес (кг):</label>
-                    <input type="number" id="target-weight" min="30" max="200" required placeholder="Например: 85">
-                </div>
-
-                <div class="input-field">
-                    <label for="target-days">Срок достижения цели (дней):</label>
-                    <input type="number" id="target-days" min="14" max="365" required placeholder="Например: 90">
-                </div>
-
-
-                <div class="input-field">
-                    <label for="height">Рост (см):</label>
-                    <input type="number" id="height" min="120" max="230" required placeholder="Например: 180">
+                    <div class="input-field">
+                        <label for="height">Рост (см):</label>
+                        <input type="number" id="height" min="120" max="230" required value="178" placeholder="178">
+                    </div>
                 </div>
 
                 <div class="input-field">
@@ -55,7 +76,7 @@
                     <select id="activity" required>
                         <option value="1.2">Минимальная (сидячая работа, без спорта)</option>
                         <option value="1.375">Низкая (легкие тренировки 1-3 раза в неделю)</option>
-                        <option value="1.55">Средняя (тренировки 3-5 раз в неделю)</option>
+                        <option value="1.55" selected>Средняя (тренировки 3-5 раз в неделю)</option>
                         <option value="1.725">Высокая (интенсивные нагрузки 6-7 раз в неделю)</option>
                         <option value="1.9">Экстремальная (тяжелая физическая работа + спорт)</option>
                     </select>
@@ -63,86 +84,492 @@
             </form>
 
             <div class="control-group">
-                <h3>2. Фильтры тренировки</h3>
-                
+                <h3>2. Фильтры тренировки и тренажёры</h3>
+
                 <div class="input-field">
                     <label for="goal">Цель:</label>
                     <select id="goal">
                         <option value="loss">Сброс веса (дефицит)</option>
-                        <option value="maintenance">Поддержание формы</option>
+                        <option value="maintenance" selected>Поддержание формы</option>
                         <option value="gain">Набор массы (профицит)</option>
                     </select>
                 </div>
 
                 <div class="input-field">
-                    <label>Группа мышц (можно выбрать несколько):</label>
-                    <div class="checkbox-group">
+                    <label for="place">Где занимаетесь:</label>
+                    <select id="place">
+                        <option value="home">Дома / На улице</option>
+                        <option value="gym">В тренажёрном зале</option>
+                    </select>
+                </div>
+
+                <!-- Целевые группы мышц для расчёта -->
+                <div class="input-field">
+                    <label>Целевые группы мышц на тренировку:</label>
+                    <div class="group-actions">
+                        <button type="button" class="mini-action-btn" id="select-all-muscles">Выбрать все</button>
+                        <button type="button" class="mini-action-btn" id="clear-all-muscles">Сбросить</button>
+                    </div>
+                    <div class="checkbox-group" id="muscle-checkboxes">
                         <label><input type="checkbox" value="chest" class="mg-checkbox" checked> Грудь</label>
                         <label><input type="checkbox" value="back" class="mg-checkbox" checked> Спина</label>
-                        <label><input type="checkbox" value="legs" class="mg-checkbox"> Ноги</label>
-                        <label><input type="checkbox" value="arms" class="mg-checkbox"> Руки </label>
-                        <label><input type="checkbox" value="shoulders" class="mg-checkbox"> Плечи </label>
-                        <label><input type="checkbox" value="abs" class="mg-checkbox"> Пресс </label>
+                        <label><input type="checkbox" value="legs" class="mg-checkbox" checked> Ноги и ягодицы</label>
+                        <label><input type="checkbox" value="shoulders" class="mg-checkbox" checked> Плечи</label>
+                        <label><input type="checkbox" value="arms" class="mg-checkbox" checked> Руки (бицепс, трицепс)</label>
+                        <label><input type="checkbox" value="abs" class="mg-checkbox" checked> Пресс и кор</label>
+                        <label><input type="checkbox" value="cardio" class="mg-checkbox" checked> Кардио и функционал</label>
                     </div>
                 </div>
 
-
-                <div class="input-field">
-                    <label>Доступный инвентарь (можно выбрать несколько):</label>
-                    <div class="checkbox-group">
+                <!-- Доступный инвентарь -->
+                <div class="input-field" id="home-eq">
+                    <label>Доступный свободный инвентарь:</label>
+                    <div class="group-actions">
+                        <button type="button" class="mini-action-btn" id="select-all-eq">Весь инвентарь</button>
+                        <button type="button" class="mini-action-btn" id="reset-basic-eq">Только свой вес</button>
+                    </div>
+                    <div class="checkbox-group" id="eq-list">
                         <label><input type="checkbox" value="bodyweight" class="eq-checkbox" checked> Коврик (Свой вес)</label>
                         <label><input type="checkbox" value="pullup" class="eq-checkbox"> Турник</label>
-                        <label><input type="checkbox" value="dips" class="eq-checkbox"> брусья</label>
-                        <label><input type="checkbox" value="dumbbells" class="eq-checkbox"> Гантели</label>
+                        <label><input type="checkbox" value="dips" class="eq-checkbox"> Брусья</label>
+                        <label><input type="checkbox" value="dumbbells" class="eq-checkbox" checked> Разборные гантели</label>
+                        <label><input type="checkbox" value="barbell" class="eq-checkbox"> Штанга и блины</label>
                         <label><input type="checkbox" value="kettlebells" class="eq-checkbox"> Гири</label>
-                        <label><input type="checkbox" value="bands" class="eq-checkbox"> Фитнес-резинки</label>
-                        <label><input type="checkbox" value="gym" class="eq-checkbox"> Тренажерный зал</label>
+                        <label><input type="checkbox" value="bands" class="eq-checkbox"> Фитнес-резинки / Эспандер</label>
+                        <label><input type="checkbox" value="trx" class="eq-checkbox"> Петли TRX</label>
+                        <label><input type="checkbox" value="fitball" class="eq-checkbox"> Фитбол (мяч)</label>
+                        <label><input type="checkbox" value="abwheel" class="eq-checkbox"> Ролик для пресса</label>
+                        <label><input type="checkbox" value="jump_rope" class="eq-checkbox"> Скакалка</label>
+                        <label><input type="checkbox" value="step" class="eq-checkbox"> Степ-платформа / Тумба</label>
+                        <label><input type="checkbox" value="medball" class="eq-checkbox"> Медбол (утяжеленный мяч)</label>
+                        <label><input type="checkbox" value="foam_roller" class="eq-checkbox"> МФР-роллер</label>
                     </div>
                 </div>
 
+                <!-- Тренажёры в зале -->
+                <div class="input-field" id="gym-eq" style="display:none">
+                    <label>Выбранные тренажёры (влияют на расчёт упражнений):</label>
+                    <div class="group-actions">
+                        <button type="button" class="mini-action-btn" id="select-all-machines">Все тренажёры</button>
+                        <button type="button" class="mini-action-btn" id="select-liked-machines">Только ❤️ любимые</button>
+                        <button type="button" class="mini-action-btn" id="clear-all-machines">Снять все</button>
+                    </div>
+                    <div class="checkbox-group" id="gym-list"></div>
+                </div>
+
+                <div class="input-field" style="margin-top: 10px;">
+                    <label class="consent">
+                        <input type="checkbox" id="auto-sync-program" checked>
+                        Автоматически формировать программу «Мои упражнения» под выбранные тренажёры и инвентарь при расчёте
+                    </label>
+                </div>
             </div>
 
-            <button type="submit" form="metrics-form" id="calculate-btn" class="main-btn">Рассчитать и подобрать</button>
+            <div class="control-group">
+                <h3>3. Добавки и препараты</h3>
+                <div class="input-field">
+                    <label for="meds">Принимаете ли вы добавки или препараты? (необязательно, полное название)</label>
+                    <input type="text" id="meds" placeholder="Например: креатин моногидрат, омега-3">
+                </div>
+                <label class="consent"><input type="checkbox" id="meds-consent"> Согласен на хранение этих данных (особая категория, 152-ФЗ)</label>
+            </div>
+
+            <button type="submit" form="metrics-form" id="calculate-btn" class="main-btn">Рассчитать и сохранить</button>
+            <div class="data-btns">
+                <button type="button" id="export-btn">Скачать мои данные</button>
+                <button type="button" id="delete-btn">Удалить мои данные</button>
+            </div>
         </aside>
 
         <main class="main-content">
-            <section class="analytics-section">
-                <h2>Аналитика метаболизма</h2>
-                <div id="advice-box" class="advice-box"></div>
-                <div class="calories-display">
-                    Суточная норма: <span id="calories-value">0</span> ккал
-                </div>
-                
-                <div class="macros-container">
-                    <div class="macro-bar-wrapper">
-                        <div class="macro-label">Белки: <span id="protein-value">0</span>г</div>
-                        <div class="progress-bg">
-                            <div id="protein-bar" class="progress-fill protein"></div>
-                        </div>
-                    </div>
-                    
-                    <div class="macro-bar-wrapper">
-                        <div class="macro-label">Жиры: <span id="fat-value">0</span>г</div>
-                        <div class="progress-bg">
-                            <div id="fat-bar" class="progress-fill fat"></div>
-                        </div>
-                    </div>
-                    
-                    <div class="macro-bar-wrapper">
-                        <div class="macro-label">Углеводы: <span id="carbs-value">0</span>г</div>
-                        <div class="progress-bg">
-                            <div id="carbs-bar" class="progress-fill carbs"></div>
-                        </div>
-                    </div>
-                </div>
-            </section>
+            <nav class="tabs">
+                <button class="tab active" id="tab-btn-my" data-tab="my" data-count="0">Мои упражнения</button>
+                <button class="tab" id="tab-btn-all" data-tab="all" data-count="0">Упражнения</button>
+                <button class="tab" id="tab-btn-machines" data-tab="machines" data-count="0">Тренажёры</button>
+                <button class="tab" id="tab-btn-liked" data-tab="liked" data-count="0">Понравившиеся</button>
+            </nav>
 
-            <section class="exercises-section">
-                <h2>Рекомендуемые упражнения</h2>
-                <div id="exercises-grid" class="exercises-grid">
-                    <p class="placeholder-text">Введите данные и нажмите кнопку для подбора упражнений.</p>
+            <div id="meds-warning" class="advice-box"></div>
+
+            <div class="tab-panel" id="tab-my">
+                <section class="analytics-section">
+                    <div class="section-header-row">
+                        <h2>Аналитика метаболизма и нагрузки</h2>
+                        <span id="active-user-pill" class="calc-pill">Профиль: <b>Гость</b></span>
+                    </div>
+
+                    <div id="advice-box" class="advice-box"></div>
+
+                    <div class="analytics-grid">
+                        <div class="stat-card">
+                            <div class="stat-card-label">Суточная норма (с учётом тренажёров)</div>
+                            <div class="stat-card-value"><span id="calories-value">0</span> ккал</div>
+                            <div class="stat-card-sub" id="bmr-sub">Базовый обмен: — ккал</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-card-label">Расход за тренировку</div>
+                            <div class="stat-card-value"><span id="workout-burn-value">0</span> ккал</div>
+                            <div class="stat-card-sub" id="workout-duration-sub">Длительность: ~0 мин</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-card-label">Индекс массы тела (ИМТ)</div>
+                            <div class="stat-card-value"><span id="bmi-value">—</span></div>
+                            <div class="stat-card-sub" id="bmi-status-sub">Заполните вес и рост</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-card-label">Водный баланс</div>
+                            <div class="stat-card-value"><span id="water-value">0</span> л/день</div>
+                            <div class="stat-card-sub">С учётом интенсивности</div>
+                        </div>
+                    </div>
+
+                    <div class="macros-container">
+                        <div class="macro-bar-wrapper">
+                            <div class="macro-label">
+                                <span>Белки (строительство мышц)</span>
+                                <strong><span id="protein-value">0</span> г</strong>
+                            </div>
+                            <div class="progress-bg">
+                                <div id="protein-bar" class="progress-fill protein"></div>
+                            </div>
+                        </div>
+
+                        <div class="macro-bar-wrapper">
+                            <div class="macro-label">
+                                <span>Жиры (гормональный фон)</span>
+                                <strong><span id="fat-value">0</span> г</strong>
+                            </div>
+                            <div class="progress-bg">
+                                <div id="fat-bar" class="progress-fill fat"></div>
+                            </div>
+                        </div>
+
+                        <div class="macro-bar-wrapper">
+                            <div class="macro-label">
+                                <span>Углеводы (энергия для тренажёров)</span>
+                                <strong><span id="carbs-value">0</span> г</strong>
+                            </div>
+                            <div class="progress-bg">
+                                <div id="carbs-bar" class="progress-fill carbs"></div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Баннер влияния выбранных тренажёров и инвентаря на расчёт упражнений -->
+                <div class="workout-calc-banner" id="workout-calc-banner">
+                    <div class="workout-calc-header">
+                        <h3>⚡ Расчёт тренировки по выбранным тренажёрам и инвентарю</h3>
+                        <button type="button" class="card-btn" id="recalc-from-machines-btn">Подобрать упражнения под мои тренажёры</button>
+                    </div>
+                    <div class="workout-calc-stats" id="workout-calc-stats">
+                        <span class="calc-pill">Режим: <b id="calc-mode-label">Дома</b></span>
+                        <span class="calc-pill">Доступно упражнений: <b id="calc-avail-count">0</b></span>
+                        <span class="calc-pill">Схема: <b id="calc-scheme-label">3-4 × 10-12</b></span>
+                        <span class="calc-pill">Отдых: <b id="calc-rest-label">60-90 сек</b></span>
+                    </div>
                 </div>
-            </section>
+
+                <section class="exercises-section">
+                    <div class="section-header-row">
+                        <h2>Мои упражнения (персональный расчёт)</h2>
+                        <div class="filters" style="margin-bottom:0">
+                            <input type="search" class="search" id="search-my" placeholder="Поиск по моим упражнениям...">
+                            <label class="consent" style="font-size:13px;">
+                                <input type="checkbox" id="filter-by-available" checked>
+                                Скрывать недоступные по тренажёрам/инвентарю
+                            </label>
+                        </div>
+                    </div>
+                    <div id="exercises-grid" class="exercises-grid"></div>
+                </section>
+            </div>
+
+            <div class="tab-panel" id="tab-all" hidden>
+                <div class="section-header-row">
+                    <h2>Полный каталог упражнений</h2>
+                    <button type="button" class="card-btn" id="add-filtered-to-my-btn">+ Добавить все найденные в «Мои»</button>
+                </div>
+                <div class="filters">
+                    <input type="search" class="search" id="search-all" placeholder="Поиск по названию или тегу...">
+                    <select id="f-muscle"></select>
+                    <select id="f-eq"></select>
+                    <select id="f-machine"></select>
+                    <select id="f-level"></select>
+                </div>
+                <div id="all-grid" class="exercises-grid"></div>
+            </div>
+
+            <div class="tab-panel" id="tab-machines" hidden>
+                <div class="section-header-row">
+                    <h2>Каталог тренажёров (выбор влияет на расчёт)</h2>
+                    <p style="font-size: 13px; color: var(--text-secondary);">Включайте тренажёры, которые есть в вашем зале, или отмечайте ❤️ любимые — расчёт весов и упражнений обновится автоматически.</p>
+                </div>
+                <div id="machines-grid" class="exercises-grid"></div>
+            </div>
+
+            <div class="tab-panel" id="tab-liked" hidden>
+                <div class="section-header-row">
+                    <h2>Понравившиеся тренажёры</h2>
+                    <button type="button" class="card-btn" id="build-liked-workout-btn">Собрать тренировку только из ❤️ любимых тренажёров</button>
+                </div>
+                <div id="liked-grid" class="exercises-grid"></div>
+            </div>
+
+            <!-- Модальное окно деталей упражнения -->
+            <div id="modal" class="modal" hidden>
+                <div class="modal-box" id="modal-box"></div>
+            </div>
+
+            <!-- Модальное окно Личного кабинета -->
+            <div id="account-modal" class="modal" hidden>
+                <div class="modal-box account-modal-box">
+                    <div class="modal-header">
+                        <h3 id="account-modal-title">Личный кабинет</h3>
+                        <button type="button" class="modal-close-x" id="close-account-modal" title="Закрыть">✕</button>
+                    </div>
+
+                    <div id="account-feedback" class="account-msg-box"></div>
+
+                    <!-- БЛОК ДЛЯ ГОСТЯ: ВХОД / РЕГИСТРАЦИЯ / ВОССТАНОВЛЕНИЕ -->
+                    <div id="guest-auth-view">
+                        <div class="auth-tabs">
+                            <button type="button" class="auth-tab-btn active" data-auth-tab="register">Регистрация</button>
+                            <button type="button" class="auth-tab-btn" data-auth-tab="login">Вход в аккаунт</button>
+                            <button type="button" class="auth-tab-btn" data-auth-tab="recover">Сброс пароля</button>
+                        </div>
+
+                        <!-- ФОРМА РЕГИСТРАЦИИ -->
+                        <form id="register-form">
+                            <div class="avatar-picker-section">
+                                <label style="font-size:13px; color:var(--text-secondary);">Выберите аватар или загрузите своё фото:</label>
+                                <div class="avatar-preview-row">
+                                    <div class="avatar-large-preview" id="reg-avatar-preview">🦁</div>
+                                    <div class="avatar-upload-controls">
+                                        <label class="card-btn" style="display:inline-block;">
+                                            📷 Загрузить фото
+                                            <input type="file" id="reg-avatar-upload" accept="image/*" hidden>
+                                        </label>
+                                        <button type="button" class="card-btn secondary" id="reg-avatar-clear">Сбросить</button>
+                                    </div>
+                                </div>
+                                <div class="preset-avatars-grid" id="reg-preset-avatars"></div>
+                            </div>
+
+                            <div class="input-row-2">
+                                <div class="input-field">
+                                    <label for="reg-nickname">Ваш никнейм:</label>
+                                    <input type="text" id="reg-nickname" required minlength="2" maxlength="28" placeholder="Например: CyberAthlete">
+                                </div>
+                                <div class="input-field">
+                                    <label for="reg-email">Электронная почта:</label>
+                                    <input type="email" id="reg-email" required placeholder="athlete@example.com">
+                                </div>
+                            </div>
+
+                            <div class="input-row-2">
+                                <div class="input-field">
+                                    <label for="reg-password">Пароль:</label>
+                                    <div class="password-wrapper">
+                                        <input type="password" id="reg-password" required minlength="6" placeholder="Минимум 6 символов">
+                                        <button type="button" class="toggle-pass-btn" data-target="reg-password" title="Показать/скрыть пароль">👁️</button>
+                                    </div>
+                                    <div class="password-strength-bar">
+                                        <div class="password-strength-fill" id="reg-strength-fill"></div>
+                                    </div>
+                                    <span class="field-hint" id="reg-strength-text">Введите надёжный пароль</span>
+                                </div>
+
+                                <div class="input-field">
+                                    <label for="reg-password-repeat">Повторите пароль:</label>
+                                    <div class="password-wrapper">
+                                        <input type="password" id="reg-password-repeat" required minlength="6" placeholder="Повторите пароль">
+                                        <button type="button" class="toggle-pass-btn" data-target="reg-password-repeat" title="Показать/скрыть пароль">👁️</button>
+                                    </div>
+                                    <span class="field-hint" id="reg-match-text">Пароли должны совпадать</span>
+                                </div>
+                            </div>
+
+                            <div class="input-field">
+                                <label for="reg-secret-word">Кодовое слово (на случай если забудете пароль):</label>
+                                <input type="text" id="reg-secret-word" placeholder="Например: Гантель (необязательно)">
+                            </div>
+
+                            <button type="submit" class="main-btn" style="width:100%; margin-top:8px;">Создать личный кабинет</button>
+                        </form>
+
+                        <!-- ФОРМА ВХОДА -->
+                        <form id="login-form" hidden>
+                            <div class="input-field">
+                                <label for="login-email">Электронная почта:</label>
+                                <input type="email" id="login-email" required placeholder="athlete@example.com">
+                            </div>
+
+                            <div class="input-field">
+                                <label for="login-password">Пароль:</label>
+                                <div class="password-wrapper">
+                                    <input type="password" id="login-password" required placeholder="Ваш пароль">
+                                    <button type="button" class="toggle-pass-btn" data-target="login-password" title="Показать/скрыть пароль">👁️</button>
+                                </div>
+                            </div>
+
+                            <button type="submit" class="main-btn" style="width:100%; margin-top:8px;">Войти в личный кабинет</button>
+                        </form>
+
+                        <!-- ФОРМА ВОССТАНОВЛЕНИЯ ПАРОЛЯ -->
+                        <form id="recover-form" hidden>
+                            <p style="font-size:13px; color:var(--text-secondary); margin-bottom:12px;">Укажите почту и кодовое слово (если задавали при регистрации), чтобы установить новый пароль.</p>
+                            <div class="input-row-2">
+                                <div class="input-field">
+                                    <label for="rec-email">Электронная почта:</label>
+                                    <input type="email" id="rec-email" required placeholder="athlete@example.com">
+                                </div>
+                                <div class="input-field">
+                                    <label for="rec-secret">Кодовое слово:</label>
+                                    <input type="text" id="rec-secret" placeholder="Если было указано">
+                                </div>
+                            </div>
+                            <div class="input-row-2">
+                                <div class="input-field">
+                                    <label for="rec-new-pass">Новый пароль:</label>
+                                    <div class="password-wrapper">
+                                        <input type="password" id="rec-new-pass" required minlength="6" placeholder="Минимум 6 символов">
+                                        <button type="button" class="toggle-pass-btn" data-target="rec-new-pass">👁️</button>
+                                    </div>
+                                </div>
+                                <div class="input-field">
+                                    <label for="rec-new-pass-repeat">Повторите пароль:</label>
+                                    <div class="password-wrapper">
+                                        <input type="password" id="rec-new-pass-repeat" required minlength="6" placeholder="Повторите новый пароль">
+                                        <button type="button" class="toggle-pass-btn" data-target="rec-new-pass-repeat">👁️</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="submit" class="main-btn" style="width:100%; margin-top:8px;">Сбросить и обновить пароль</button>
+                        </form>
+                    </div>
+
+                    <!-- БЛОК АВТОРИЗОВАННОГО ПОЛЬЗОВАТЕЛЯ -->
+                    <div id="user-profile-view" hidden>
+                        <div class="profile-summary-cards">
+                            <div class="profile-summary-card">
+                                <span>Статус атлета</span>
+                                <strong id="prof-stat-rank">Атлет</strong>
+                            </div>
+                            <div class="profile-summary-card">
+                                <span>Текущий / Цель</span>
+                                <strong id="prof-stat-weight">75 → 75 кг</strong>
+                            </div>
+                            <div class="profile-summary-card">
+                                <span>Норма в день</span>
+                                <strong id="prof-stat-kcal">0 ккал</strong>
+                            </div>
+                            <div class="profile-summary-card">
+                                <span>В программе</span>
+                                <strong id="prof-stat-excount">0 упр.</strong>
+                            </div>
+                        </div>
+
+                        <div class="auth-tabs">
+                            <button type="button" class="auth-tab-btn active" data-profile-tab="edit-profile">Профиль и Аватар</button>
+                            <button type="button" class="auth-tab-btn" data-profile-tab="change-password">Изменить пароль</button>
+                        </div>
+
+                        <!-- РЕДАКТИРОВАНИЕ ПРОФИЛЯ И АВАТАРА -->
+                        <form id="profile-edit-form">
+                            <div class="avatar-picker-section">
+                                <label style="font-size:13px; color:var(--text-secondary);">Ваш аватар:</label>
+                                <div class="avatar-preview-row">
+                                    <div class="avatar-large-preview" id="prof-avatar-preview">🦁</div>
+                                    <div class="avatar-upload-controls">
+                                        <label class="card-btn" style="display:inline-block;">
+                                            📷 Загрузить фото
+                                            <input type="file" id="prof-avatar-upload" accept="image/*" hidden>
+                                        </label>
+                                        <button type="button" class="card-btn secondary" id="prof-avatar-clear">Инициалы</button>
+                                    </div>
+                                </div>
+                                <div class="preset-avatars-grid" id="prof-preset-avatars"></div>
+                            </div>
+
+                            <div class="input-row-2">
+                                <div class="input-field">
+                                    <label for="prof-nickname">Никнейм:</label>
+                                    <input type="text" id="prof-nickname" required minlength="2" maxlength="28">
+                                </div>
+                                <div class="input-field">
+                                    <label for="prof-email">Электронная почта:</label>
+                                    <input type="email" id="prof-email" required>
+                                </div>
+                            </div>
+
+                            <div class="input-field">
+                                <label for="prof-bio">Спортивный девиз / Заметка о себе:</label>
+                                <input type="text" id="prof-bio" maxlength="90" placeholder="Например: Иду к жиму 100 кг!">
+                            </div>
+
+                            <div style="display:flex; flex-wrap:wrap; gap:10px; margin-top:12px;">
+                                <button type="submit" class="main-btn" style="flex:2;">Сохранить изменения профиля</button>
+                                <button type="button" id="logout-btn" class="card-btn secondary" style="flex:1;">Выйти из аккаунта</button>
+                            </div>
+                        </form>
+
+                        <!-- СМЕНА ПАРОЛЯ -->
+                        <form id="change-password-form" hidden>
+                            <div class="input-field">
+                                <label for="cp-current-password">Текущий пароль:</label>
+                                <div class="password-wrapper">
+                                    <input type="password" id="cp-current-password" required placeholder="Введите текущий пароль">
+                                    <button type="button" class="toggle-pass-btn" data-target="cp-current-password">👁️</button>
+                                </div>
+                            </div>
+
+                            <div class="input-row-2">
+                                <div class="input-field">
+                                    <label for="cp-new-password">Новый пароль:</label>
+                                    <div class="password-wrapper">
+                                        <input type="password" id="cp-new-password" required minlength="6" placeholder="Минимум 6 символов">
+                                        <button type="button" class="toggle-pass-btn" data-target="cp-new-password">👁️</button>
+                                    </div>
+                                    <div class="password-strength-bar">
+                                        <div class="password-strength-fill" id="cp-strength-fill"></div>
+                                    </div>
+                                    <span class="field-hint" id="cp-strength-text">Введите новый пароль</span>
+                                </div>
+
+                                <div class="input-field">
+                                    <label for="cp-new-password-repeat">Повторите пароль:</label>
+                                    <div class="password-wrapper">
+                                        <input type="password" id="cp-new-password-repeat" required minlength="6" placeholder="Повторите новый пароль">
+                                        <button type="button" class="toggle-pass-btn" data-target="cp-new-password-repeat">👁️</button>
+                                    </div>
+                                    <span class="field-hint" id="cp-match-text">Пароли должны совпадать</span>
+                                </div>
+                            </div>
+
+                            <button type="submit" class="main-btn" style="width:100%; margin-top:8px;">Обновить пароль</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Модальное окно подтверждения удаления данных (вместо блокируемого confirm) -->
+            <div id="confirm-modal" class="modal" hidden>
+                <div class="modal-box" style="max-width:420px;">
+                    <div class="modal-header">
+                        <h3 style="color:var(--danger-color);">⚠️ Подтверждение удаления</h3>
+                        <button type="button" class="modal-close-x" id="close-confirm-modal">✕</button>
+                    </div>
+                    <p style="font-size:14px; color:#ddd; margin-bottom:18px;">Вы действительно хотите удалить все сохранённые метрики и настройки тренировок? Это действие нельзя отменить.</p>
+                    <div style="display:flex; gap:10px; justify-content:flex-end;">
+                        <button type="button" class="card-btn secondary" id="cancel-delete-btn">Отмена</button>
+                        <button type="button" class="card-btn" id="confirm-delete-btn" style="border-color:var(--danger-color); color:var(--danger-color);">Да, удалить данные</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Всплывающее уведомление -->
+            <div id="toast" class="toast-notification"></div>
 
         </main>
 

@@ -2,19 +2,23 @@
 :root {
     --bg-color: #121212;
     --surface-color: #1e1e1e;
+    --surface-elevated: #262626;
     --surface-hover: #2c2c2c;
     --text-primary: #ffffff;
     --text-secondary: #aaaaaa;
-    --primary-color: #00e676; /* Спортивный неоново-зеленый */
+    --primary-color: #00e676;
     --primary-hover: #00c853;
-    
+    --accent-blue: #29b6f6;
+    --accent-orange: #ffa726;
+    --danger-color: #ff5252;
+
     /* Цвета для БЖУ */
-    --protein-color: #00c853;
-    --fat-color: #00c853;
-    --carbs-color: #00c853;
+    --protein-color: #00e676;
+    --fat-color: #ffa726;
+    --carbs-color: #29b6f6;
 
     --border-radius: 12px;
-    --transition: 0.3s ease;
+    --transition: 0.25s ease;
 }
 
 * {
@@ -27,62 +31,191 @@
 body {
     background-color: var(--bg-color);
     color: var(--text-primary);
-    overflow: hidden; /* Скрываем общий скролл, скроллиться будет только правая часть */
+    overflow: hidden;
 }
 
 /* --- 2. ГЛАВНАЯ СЕТКА (GRID) --- */
 .dashboard-container {
     display: grid;
-    grid-template-columns: 320px 1fr; /* Левая панель 320px, правая занимает остаток */
+    grid-template-columns: 360px 1fr;
     height: 100vh;
 }
 
-/* --- 3. ЛЕВАЯ ПАНЕЛЬ (САЙДБАР) --- */
+/* --- 3. ЛЕВАЯ ПАНЕЛЬ (САЙДБАР) И ИКОНКА ЛИЧНОГО КАБИНЕТА СЛЕВА ВВЕРХУ --- */
 .sidebar {
     background-color: var(--surface-color);
-    padding: 24px;
+    padding: 20px 22px 24px;
     border-right: 1px solid #333;
     overflow-y: auto;
     display: flex;
     flex-direction: column;
-    gap: 24px;
+    gap: 20px;
 }
 
-.sidebar::-webkit-scrollbar {
+.sidebar::-webkit-scrollbar,
+.main-content::-webkit-scrollbar,
+.modal-box::-webkit-scrollbar {
     width: 6px;
 }
-.sidebar::-webkit-scrollbar-thumb {
+.sidebar::-webkit-scrollbar-thumb,
+.main-content::-webkit-scrollbar-thumb,
+.modal-box::-webkit-scrollbar-thumb {
     background-color: #444;
     border-radius: 4px;
 }
 
-.sidebar h2 {
+/* Верхняя панель с иконкой Личного кабинета слева вверху */
+.sidebar-top-bar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid #333;
+}
+
+.profile-trigger-btn {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    background: linear-gradient(135deg, #252525 0%, #1a1a1a 100%);
+    border: 1px solid #3a3a3a;
+    border-radius: 12px;
+    padding: 10px 12px;
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: var(--transition);
+    text-align: left;
+    position: relative;
+}
+
+.profile-trigger-btn:hover {
+    border-color: var(--primary-color);
+    box-shadow: 0 4px 14px rgba(0, 230, 118, 0.18);
+    transform: translateY(-1px);
+}
+
+.profile-avatar-circle {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #00e676, #00b0ff);
+    display: flex;
+    align-items: center;
+    justify-content: center;
     font-size: 20px;
-    border-bottom: 2px solid var(--primary-color);
-    padding-bottom: 10px;
-    display: inline-block;
+    font-weight: bold;
+    color: #000;
+    flex-shrink: 0;
+    overflow: hidden;
+    border: 2px solid var(--primary-color);
+    position: relative;
 }
 
-.control-group h3 {
-    font-size: 16px;
+.profile-avatar-circle img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.profile-status-dot {
+    position: absolute;
+    bottom: 8px;
+    left: 44px;
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+    background-color: #777;
+    border: 2px solid #1e1e1e;
+}
+
+.profile-status-dot.online {
+    background-color: var(--primary-color);
+}
+
+.profile-trigger-info {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    flex: 1;
+}
+
+.profile-trigger-name {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text-primary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.profile-trigger-sub {
+    font-size: 12px;
     color: var(--text-secondary);
-    margin-bottom: 16px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
-/* Стилизация форм ввода */
-.input-field {
-    margin-bottom: 16px;
+.profile-trigger-arrow {
+    color: var(--primary-color);
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.sidebar-header-block {
     display: flex;
     flex-direction: column;
     gap: 6px;
 }
 
+.sidebar h2 {
+    font-size: 20px;
+    border-bottom: 2px solid var(--primary-color);
+    padding-bottom: 8px;
+    display: inline-block;
+}
+
+.control-group {
+    background-color: #181818;
+    border: 1px solid #2c2c2c;
+    border-radius: 10px;
+    padding: 16px;
+}
+
+.control-group h3 {
+    font-size: 15px;
+    color: var(--primary-color);
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* Стилизация форм ввода */
+.input-field {
+    margin-bottom: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.input-field:last-child {
+    margin-bottom: 0;
+}
+
 .input-field label {
-    font-size: 14px;
+    font-size: 13px;
     color: var(--text-secondary);
 }
 
-.input-field input, 
+.input-row-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+.input-field input,
 .input-field select {
     background-color: var(--bg-color);
     border: 1px solid #444;
@@ -91,12 +224,39 @@ body {
     border-radius: 8px;
     outline: none;
     transition: var(--transition);
+    width: 100%;
+    font-size: 14px;
 }
 
-.input-field input:focus, 
+.input-field input:focus,
 .input-field select:focus {
     border-color: var(--primary-color);
     box-shadow: 0 0 0 2px rgba(0, 230, 118, 0.2);
+}
+
+/* Мини-кнопки управления чекбоксами */
+.group-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 4px;
+    margin-bottom: 6px;
+}
+
+.mini-action-btn {
+    background: #2a2a2a;
+    color: var(--text-secondary);
+    border: 1px solid #3d3d3d;
+    border-radius: 6px;
+    padding: 4px 8px;
+    font-size: 11px;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.mini-action-btn:hover {
+    color: #000;
+    background: var(--primary-color);
+    border-color: var(--primary-color);
 }
 
 /* Главная кнопка */
@@ -104,28 +264,43 @@ body {
     background-color: var(--primary-color);
     color: #000;
     font-weight: bold;
+    font-size: 15px;
     border: none;
     padding: 14px;
     border-radius: 8px;
     cursor: pointer;
     transition: var(--transition);
-    margin-top: auto; /* Прижимаем кнопку к низу сайдбара */
+    margin-top: auto;
 }
 
 .main-btn:hover {
     background-color: var(--primary-hover);
     transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 230, 118, 0.25);
 }
 
 /* --- 4. ОСНОВНОЙ КОНТЕНТ (ПРАВАЯ ЧАСТЬ) --- */
 .main-content {
-    padding: 32px;
+    padding: 28px 32px;
     overflow-y: auto;
 }
 
 .main-content h2 {
-    margin-bottom: 20px;
+    margin-bottom: 16px;
     font-size: 24px;
+}
+
+.section-header-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.section-header-row h2 {
+    margin-bottom: 0;
 }
 
 /* Секция аналитики */
@@ -133,12 +308,45 @@ body {
     background-color: var(--surface-color);
     padding: 24px;
     border-radius: var(--border-radius);
-    margin-bottom: 32px;
+    margin-bottom: 28px;
+    border: 1px solid #2d2d2d;
+}
+
+.analytics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 14px;
+    margin-bottom: 20px;
+}
+
+.stat-card {
+    background-color: #161616;
+    border: 1px solid #2e2e2e;
+    border-radius: 10px;
+    padding: 14px 16px;
+}
+
+.stat-card-label {
+    font-size: 12px;
+    color: var(--text-secondary);
+    margin-bottom: 6px;
+}
+
+.stat-card-value {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--primary-color);
+}
+
+.stat-card-sub {
+    font-size: 12px;
+    color: #999;
+    margin-top: 4px;
 }
 
 .calories-display {
-    font-size: 22px;
-    margin-bottom: 24px;
+    font-size: 20px;
+    margin-bottom: 18px;
 }
 
 #calories-value {
@@ -151,12 +359,14 @@ body {
 .macros-container {
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 14px;
 }
 
 .macro-label {
     font-size: 14px;
     margin-bottom: 6px;
+    display: flex;
+    justify-content: space-between;
 }
 
 .progress-bg {
@@ -169,82 +379,186 @@ body {
 
 .progress-fill {
     height: 100%;
-    width: 0%; /* Стартовая ширина, её будет менять JS */
+    width: 0%;
     border-radius: 10px;
-    transition: width 1s cubic-bezier(0.4, 0, 0.2, 1); /* Плавная анимация заполнения */
+    transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .protein { background-color: var(--protein-color); }
 .fat { background-color: var(--fat-color); }
 .carbs { background-color: var(--carbs-color); }
 
-/* --- 5. СЕТКА КАРТОЧЕК УПРАЖНЕНИЙ --- */
+/* --- СВОДКА ВЛИЯНИЯ ТРЕНАЖЁРОВ И РАСЧЁТА ПРОГРАММЫ --- */
+.workout-calc-banner {
+    background: linear-gradient(135deg, rgba(0, 230, 118, 0.12) 0%, rgba(41, 182, 246, 0.08) 100%);
+    border: 1px solid rgba(0, 230, 118, 0.35);
+    border-radius: var(--border-radius);
+    padding: 18px 20px;
+    margin-bottom: 22px;
+}
+
+.workout-calc-header {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+}
+
+.workout-calc-header h3 {
+    color: var(--primary-color);
+    font-size: 18px;
+}
+
+.workout-calc-stats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.calc-pill {
+    background-color: rgba(0, 0, 0, 0.45);
+    border: 1px solid #3a3a3a;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 13px;
+    color: #e0e0e0;
+}
+
+.calc-pill b {
+    color: var(--primary-color);
+}
+
+/* --- 5. СЕТКА КАРТОЧЕК УПРАЖНЕНИЙ И ТРЕНАЖЁРОВ --- */
 .exercises-grid {
     display: grid;
-    /* Умная сетка: карточки сами подстраиваются под ширину экрана */
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 20px;
+    grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+    gap: 18px;
 }
+
 .placeholder-text {
     color: var(--text-secondary);
     font-style: italic;
-    grid-column: 1 / -1; /* Занимает всю ширину */
+    grid-column: 1 / -1;
+    background: var(--surface-color);
+    padding: 20px;
+    border-radius: 10px;
+    border: 1px dashed #444;
 }
 
-/* Стили для будущих карточек (которые сгенерирует JS) */
 .exercise-card {
     background-color: var(--surface-color);
     border-radius: var(--border-radius);
-    padding: 20px;
+    padding: 18px;
     border: 1px solid #333;
     transition: var(--transition);
-    cursor: default;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 10px;
+    position: relative;
 }
 
 .exercise-card:hover {
-    transform: translateY(-5px);
+    transform: translateY(-4px);
     border-color: var(--primary-color);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.45);
+}
+
+.exercise-card.priority-card {
+    border-color: rgba(0, 230, 118, 0.65);
+    background: linear-gradient(180deg, rgba(0, 230, 118, 0.07) 0%, #1e1e1e 100%);
+}
+
+.exercise-card.unavailable-card {
+    opacity: 0.58;
+    border-color: #3a2a2a;
 }
 
 .exercise-card h4 {
     color: var(--primary-color);
-    margin-bottom: 10px;
-    font-size: 18px;
+    margin-bottom: 6px;
+    font-size: 17px;
+    line-height: 1.35;
+    padding-right: 28px;
 }
 
 .exercise-tag {
     display: inline-block;
-    background-color: #333;
-    color: var(--text-secondary);
+    background-color: #2f2f2f;
+    color: #d0d0d0;
     padding: 4px 8px;
-    border-radius: 4px;
-    font-size: 12px;
+    border-radius: 5px;
+    font-size: 11.5px;
     margin-right: 6px;
-    margin-bottom: 10px;
+    margin-bottom: 6px;
 }
 
-/* --- 6. АДАПТИВНОСТЬ ДЛЯ ТЕЛЕФОНОВ --- */
-@media (max-width: 768px) {
-    .dashboard-container {
-        grid-template-columns: 1fr; /* Колонки выстраиваются друг под другом */
-        height: auto;
-    }
-    
-    body {
-        overflow: auto; /* Возвращаем скролл для всей страницы */
-    }
+.exercise-tag.tag-machine {
+    background-color: rgba(41, 182, 246, 0.16);
+    color: #4fc3f7;
+    border: 1px solid rgba(41, 182, 246, 0.35);
 }
+
+.exercise-tag.tag-fav {
+    background-color: rgba(255, 167, 38, 0.18);
+    color: #ffb74d;
+    border: 1px solid rgba(255, 167, 38, 0.4);
+}
+
+.exercise-tag.tag-missing {
+    background-color: rgba(255, 82, 82, 0.16);
+    color: #ff8a80;
+    border: 1px solid rgba(255, 82, 82, 0.35);
+}
+
+/* Блок расчёта внутри карточки упражнения */
+.exercise-calc-box {
+    background-color: #151515;
+    border: 1px solid #2c2c2c;
+    border-radius: 8px;
+    padding: 10px 12px;
+    font-size: 12.5px;
+    color: #ccc;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px 10px;
+}
+
+.exercise-calc-item span {
+    color: var(--text-secondary);
+    display: block;
+    font-size: 11px;
+}
+
+.exercise-calc-item strong {
+    color: #fff;
+    font-size: 13px;
+}
+
+.exercise-calc-item strong.accent {
+    color: var(--primary-color);
+}
+
+.card-footer-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-top: 4px;
+}
+
 .advice-box {
-    background-color: #2c2c2c;
+    background-color: #252525;
     padding: 16px;
     border-radius: 8px;
     border-left: 4px solid var(--primary-color);
-    margin-bottom: 24px;
+    margin-bottom: 20px;
     font-size: 14px;
     line-height: 1.6;
     color: #e0e0e0;
-    display: none; /* Скрыт, пока не нажмут кнопку */
+    display: none;
 }
 
 .advice-box strong {
@@ -253,30 +567,438 @@ body {
     margin-bottom: 6px;
     font-size: 16px;
 }
-/* --- ГРУППА ЧЕКБОКСОВ ИНВЕНТАРЯ --- */
+
+/* --- ГРУППА ЧЕКБОКСОВ ИНВЕНТАРЯ И ТРЕНАЖЁРОВ --- */
 .checkbox-group {
     display: flex;
     flex-direction: column;
-    gap: 12px;
-    background-color: #2c2c2c; /* Темный фон под группу */
-    padding: 16px;
+    gap: 10px;
+    background-color: #222222;
+    padding: 14px;
     border-radius: 8px;
-    border: 1px solid #444;
+    border: 1px solid #3a3a3a;
     margin-top: 5px;
+    max-height: 230px;
+    overflow-y: auto;
 }
 
 .checkbox-group label {
     display: flex;
     align-items: center;
     gap: 10px;
-    font-size: 14px;
+    font-size: 13.5px;
     color: #e0e0e0;
     cursor: pointer;
+    line-height: 1.3;
 }
 
 .checkbox-group input[type="checkbox"] {
-    accent-color: #00e676; /* Салатовый цвет для самой галочки */
-    width: 18px;
-    height: 18px;
+    accent-color: #00e676;
+    width: 17px;
+    height: 17px;
     cursor: pointer;
+    flex-shrink: 0;
+}
+
+/* --- ВКЛАДКИ, ПОИСК, ФИЛЬТРЫ, МОДАЛЬНЫЕ ОКНА --- */
+.disclaimer { font-size: 12px; color: #ffa726; }
+.tabs { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 22px; }
+.tab {
+    background: var(--surface-color);
+    color: var(--text-secondary);
+    border: 1px solid #333;
+    padding: 10px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: var(--transition);
+    font-size: 14px;
+}
+.tab:hover { border-color: var(--primary-color); color: #fff; }
+.tab.active {
+    background: var(--primary-color);
+    color: #000;
+    font-weight: bold;
+    border-color: var(--primary-color);
+}
+.tab[data-count]::after {
+    content: attr(data-count);
+    display: inline-block;
+    background: rgba(0, 0, 0, 0.25);
+    padding: 1px 7px;
+    border-radius: 10px;
+    font-size: 11px;
+    margin-left: 6px;
+}
+.tab-panel[hidden], .modal[hidden] { display: none !important; }
+.search, .filters select {
+    background: var(--surface-color);
+    border: 1px solid #444;
+    color: var(--text-primary);
+    padding: 10px 12px;
+    border-radius: 8px;
+    outline: none;
+    font-size: 14px;
+}
+.search:focus, .filters select:focus {
+    border-color: var(--primary-color);
+}
+.search { width: 100%; max-width: 340px; }
+.filters { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 20px; align-items: center; }
+.filters .search { margin-bottom: 0; }
+.card-btn {
+    background: transparent;
+    color: var(--primary-color);
+    border: 1px solid var(--primary-color);
+    border-radius: 8px;
+    padding: 7px 13px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
+    transition: var(--transition);
+}
+.card-btn:hover { background: var(--primary-color); color: #000; }
+.card-btn.secondary {
+    border-color: #555;
+    color: #ccc;
+}
+.card-btn.secondary:hover {
+    background: #444;
+    color: #fff;
+}
+.card-btn.active-machine {
+    background: rgba(0, 230, 118, 0.15);
+}
+.exercise-card[data-id] { cursor: pointer; }
+.heart {
+    background: none;
+    border: none;
+    font-size: 19px;
+    cursor: pointer;
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    line-height: 1;
+}
+.ex-list { margin: 8px 0 6px 18px; font-size: 13px; color: #ccc; }
+.ex-list li { margin-bottom: 3px; }
+.consent { display: flex; gap: 8px; font-size: 12px; color: var(--text-secondary); cursor: pointer; align-items: flex-start; }
+.data-btns { display: flex; gap: 8px; }
+.data-btns button {
+    flex: 1;
+    background: transparent;
+    color: var(--text-secondary);
+    border: 1px solid #444;
+    border-radius: 8px;
+    padding: 9px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: var(--transition);
+}
+.data-btns button:hover {
+    border-color: var(--primary-color);
+    color: #fff;
+}
+
+/* --- МОДАЛЬНЫЕ ОКНА И ЛИЧНЫЙ КАБИНЕТ --- */
+.modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.76);
+    backdrop-filter: blur(3px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    z-index: 100;
+}
+
+.modal-box {
+    background: var(--surface-color);
+    border: 1px solid #383838;
+    border-radius: 16px;
+    padding: 26px;
+    max-width: 560px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    line-height: 1.6;
+    box-shadow: 0 18px 48px rgba(0, 0, 0, 0.65);
+}
+
+.modal-box.account-modal-box {
+    max-width: 640px;
+}
+
+.modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 18px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #333;
+}
+
+.modal-header h3 {
+    color: var(--primary-color);
+    font-size: 20px;
+    margin: 0;
+}
+
+.modal-close-x {
+    background: #2c2c2c;
+    border: 1px solid #444;
+    color: #fff;
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.modal-close-x:hover {
+    background: var(--danger-color);
+    border-color: var(--danger-color);
+}
+
+/* Личный кабинет: переключатели и формы */
+.auth-tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 18px;
+    background: #141414;
+    padding: 5px;
+    border-radius: 10px;
+}
+
+.auth-tab-btn {
+    flex: 1;
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+    padding: 9px 12px;
+    border-radius: 7px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 13.5px;
+    transition: var(--transition);
+}
+
+.auth-tab-btn.active {
+    background: var(--primary-color);
+    color: #000;
+}
+
+.password-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.password-wrapper input {
+    padding-right: 42px;
+}
+
+.toggle-pass-btn {
+    position: absolute;
+    right: 10px;
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    cursor: pointer;
+    font-size: 16px;
+    padding: 4px;
+}
+
+.toggle-pass-btn:hover {
+    color: var(--primary-color);
+}
+
+.password-strength-bar {
+    height: 5px;
+    border-radius: 4px;
+    background: #333;
+    margin-top: 4px;
+    overflow: hidden;
+}
+
+.password-strength-fill {
+    height: 100%;
+    width: 0%;
+    transition: width 0.3s ease, background-color 0.3s ease;
+}
+
+.field-hint {
+    font-size: 12px;
+    color: var(--text-secondary);
+}
+
+.field-hint.match-ok {
+    color: var(--primary-color);
+}
+
+.field-hint.match-err {
+    color: var(--danger-color);
+}
+
+/* Выбор аватара */
+.avatar-picker-section {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    background: #161616;
+    border: 1px solid #2e2e2e;
+    padding: 14px;
+    border-radius: 10px;
+    margin-bottom: 14px;
+}
+
+.avatar-preview-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.avatar-large-preview {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #00e676, #00b0ff);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px;
+    font-weight: bold;
+    color: #000;
+    border: 2px solid var(--primary-color);
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.avatar-large-preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.avatar-upload-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.preset-avatars-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 8px;
+}
+
+.preset-avatar-btn {
+    background: #242424;
+    border: 2px solid transparent;
+    border-radius: 10px;
+    height: 44px;
+    font-size: 22px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: var(--transition);
+}
+
+.preset-avatar-btn:hover,
+.preset-avatar-btn.selected {
+    border-color: var(--primary-color);
+    background: rgba(0, 230, 118, 0.14);
+}
+
+.account-msg-box {
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 13px;
+    margin-bottom: 14px;
+    display: none;
+}
+
+.account-msg-box.error {
+    display: block;
+    background: rgba(255, 82, 82, 0.15);
+    border: 1px solid var(--danger-color);
+    color: #ff8a80;
+}
+
+.account-msg-box.success {
+    display: block;
+    background: rgba(0, 230, 118, 0.15);
+    border: 1px solid var(--primary-color);
+    color: var(--primary-color);
+}
+
+.profile-summary-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 10px;
+    margin-bottom: 16px;
+}
+
+.profile-summary-card {
+    background: #151515;
+    border: 1px solid #2d2d2d;
+    border-radius: 10px;
+    padding: 10px 12px;
+    text-align: center;
+}
+
+.profile-summary-card span {
+    font-size: 11px;
+    color: var(--text-secondary);
+    display: block;
+}
+
+.profile-summary-card strong {
+    font-size: 16px;
+    color: var(--primary-color);
+}
+
+/* Всплывающее уведомление (Toast) */
+.toast-notification {
+    position: fixed;
+    bottom: 22px;
+    right: 22px;
+    background: #1f1f1f;
+    color: #fff;
+    border-left: 4px solid var(--primary-color);
+    padding: 12px 18px;
+    border-radius: 10px;
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.55);
+    font-size: 14px;
+    z-index: 200;
+    opacity: 0;
+    transform: translateY(15px);
+    pointer-events: none;
+    transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.toast-notification.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* --- 6. АДАПТИВНОСТЬ ДЛЯ ТЕЛЕФОНОВ И ПЛАНШЕТОВ --- */
+@media (max-width: 900px) {
+    .dashboard-container {
+        grid-template-columns: 1fr;
+        height: auto;
+    }
+
+    body {
+        overflow: auto;
+    }
+
+    .main-content {
+        padding: 20px 16px;
+    }
+
+    .preset-avatars-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
 }
